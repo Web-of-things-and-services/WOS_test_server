@@ -20,6 +20,7 @@
             height: 3rem;
             box-sizing: border-box;
             backdrop-filter: blur(10px);
+            width: 80%;
         }
 
         #input {
@@ -57,14 +58,58 @@
         #moves > li:nth-child(odd) {
             background: #efefef;
         }
+
+        body {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .buttons {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            flex-direction: column;
+            background-color: grey;
+            padding: 2rem;
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 16.7%;
+            height: 100vh;
+        }
+
+        .chat {
+            background-color: green;
+            width: 80%;
+        }
+
+        .eventButton {
+            padding: 1rem;
+            border: 1px solid red;
+            background-color: lightcoral;
+            width: 60%;
+            margin-bottom: 2rem;
+        }
+
+        .eventButton:hover {
+            background-color: black;
+            color: white;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
-<ul id="moves"></ul>
-<form action="" id="form">
-    <input autocomplete="off" id="input"/>
-    <button>Send</button>
-</form>
+<div class="chat">
+    <ul id="moves"></ul>
+    <form action="" id="form">
+        <input autocomplete="off" id="input"/>
+        <button>Send</button>
+    </form>
+</div>
+<div class="buttons">
+    <button class="eventButton">Event 1</button>
+    <button class="eventButton">Event 2</button>
+</div>
 <script src="/socket.io/socket.io.js"></script>
 <script>
     let socket = io();
@@ -73,7 +118,7 @@
     let input = document.getElementById('input');
     let moves = document.getElementById("moves")
 
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', function (e) {
         e.preventDefault();
         if (input.value) {
             socket.emit('new_move', input.value);

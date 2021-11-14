@@ -20,6 +20,11 @@ io.on("connection", (socket) => {
         console.log(`New move : ${move}`)
         io.emit("new_move", move)
     })
+
+    socket.onAny((event, ...args) => {
+        console.log(`Server received : ${event}`)
+        console.log(args)
+    })
 })
 server.listen(3000, () => {
     console.log('listening on *:3000');
