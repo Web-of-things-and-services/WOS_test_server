@@ -79,7 +79,6 @@
         }
 
         .chat {
-            background-color: green;
             width: 80%;
         }
 
@@ -107,8 +106,7 @@
     </form>
 </div>
 <div class="buttons">
-    <button class="eventButton">Event 1</button>
-    <button class="eventButton">Event 2</button>
+    <button class="eventButton" id="randomMove">MOVE ALEATOIRE</button>
 </div>
 <script src="/socket.io/socket.io.js"></script>
 <script>
@@ -117,6 +115,8 @@
     let form = document.getElementById('form');
     let input = document.getElementById('input');
     let moves = document.getElementById("moves")
+    let randomMove = document.getElementById("randomMove")
+    let symbols = ["R", "Y", "B"]
 
     form.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -126,9 +126,16 @@
         }
     });
 
+    randomMove.addEventListener('click', function (e) {
+        e.preventDefault();
+        let column = Math.floor(Math.random() * 7)
+        let symbol = symbols[Math.floor(Math.random() * symbols.length)]
+        socket.emit('new_move', {column: column, symbol: symbol});
+    });
+
     socket.on("new_move", (move) => {
         let item = document.createElement('li');
-        item.textContent = move;
+        item.textContent = JSON.stringify(move);
         moves.appendChild(item);
         window.scrollTo(0, document.body.scrollHeight);
     })
